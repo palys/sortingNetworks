@@ -11,10 +11,10 @@ object Functions {
   implicit def bool2int(b: Boolean) = if (b) 1 else 0
 
   def networkTarget(network: SortingNetwork, problems: Array[ListToSort]) = {
-    problems.map(network.sort(_).isSorted).reduce(_ + _)
+    problems.map(network.sort(_).isSorted).map(bool2int(_)).reduce(_ + _)
   }
 
   def listTarget(list: ListToSort, networks: Array[SortingNetwork]) = {
-    networks.map(1 - _.sort(list).isSorted).reduce(_ + _)
+    networks.map(_.sort(list).isSorted).map(1 - bool2int(_)).reduce(_ + _)
   }
 }

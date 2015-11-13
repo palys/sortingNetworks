@@ -55,7 +55,6 @@ object Strategies {
 
       (newNetworksPopulation, newListsPopulation)
 
-      // ADD new random
     }
 
     def promotedLists(population: Array[ListToSort]) : Array[ListToSort]
@@ -84,6 +83,10 @@ object Strategies {
     extends AbstractStrategy(networkMutator, networkCrosser, listMutator,
       listCrosser, networkTargetFunction, listTargetFunction) {
 
+    def randomIndices(maxIndex: Int, numberOfIndices: Int) = {
+      random.shuffle(0 to maxIndex - 1).take(numberOfIndices)
+    }
+
     override def promotedLists(population: Array[ListToSort]): Array[ListToSort] = {
       population.slice(population.size * 3 / 4, population.size)
     }
@@ -92,18 +95,28 @@ object Strategies {
       population.slice(population.size * 3 / 4, population.size)
     }
 
-    override def mutatingNetworks(population: Array[SortingNetwork]): Array[SortingNetwork] = ???
+    override def mutatingNetworks(population: Array[SortingNetwork]): Array[SortingNetwork] = {
+      randomIndices(networksPopulationSize, networksPopulationSize / 4).map(population(_)).toArray
+    }
 
-    override def crossingNetworks(population: Array[SortingNetwork]): Array[(SortingNetwork, SortingNetwork)] = ???
+    override def crossingNetworks(population: Array[SortingNetwork]): Array[(SortingNetwork, SortingNetwork)] = {
+      (networksPopulationSize * 3 /4 to networksPopulationSize - 1 by 2).map(i => (population(i), population(i + 1))).toArray
+    }
 
-    override def mutatingLists(population: Array[ListToSort]): Array[ListToSort] = ???
+    override def mutatingLists(population: Array[ListToSort]): Array[ListToSort] = {
+      randomIndices(listPopulationSize, listPopulationSize / 4).map(population(_)).toArray
+    }
 
-    override def crossingLists(population: Array[ListToSort]): Array[(ListToSort, ListToSort)] = ???
+    override def crossingLists(population: Array[ListToSort]): Array[(ListToSort, ListToSort)] = {
+      (listPopulationSize * 3 /4 to listPopulationSize - 1 by 2).map(i => (population(i), population(i + 1))).toArray
+    }
 
     override def randomLists: Array[ListToSort] = {
       (1 to listPopulationSize/4).map(x => ListToSort.randomList(listLength)).toArray
     }
 
-    override def randomNetworks: Array[SortingNetwork] = ???
+    override def randomNetworks: Array[SortingNetwork] = {
+      (1 to networksPopulationSize/4).map(x => SortingNetwork.randomNetwork(listLength, 5)).toArray
+    }
   }
 }

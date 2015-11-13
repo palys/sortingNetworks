@@ -8,8 +8,6 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    println(isSorted(Array(1, 2, 3, 4)))
-    println(isSorted(Array(1, 2, 4, 3)))
-    println(isSorted(Array(4, 1, 2, 3)))
+    println(4 to 8 by 2)
   }
 }
