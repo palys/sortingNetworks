@@ -25,6 +25,17 @@ object Mutators {
   }
 
   object BasicNetworkMutator extends Mutator[SortingNetwork] {
-    override def mutate(individual: SortingNetwork): SortingNetwork = individual // TODO
+    val random = Random
+
+    override def mutate(individual: SortingNetwork): SortingNetwork = {
+      val r = random.nextFloat()
+      val listSize = individual.listLen
+
+      if (r < 0.5) {
+        individual
+      } else {
+        individual
+      }
+    }
   }
 }

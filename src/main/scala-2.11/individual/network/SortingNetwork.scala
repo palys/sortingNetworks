@@ -13,11 +13,11 @@ object SortingNetwork {
   val random = Random
 
   def randomNetwork(listSize : Int, networkSize: Int) = {
-    new SortingNetwork((1 to networkSize).map(x => new Comparator(random.nextInt(listSize), random.nextInt(listSize))).toArray)
+    new SortingNetwork((1 to networkSize).map(x => new Comparator(random.nextInt(listSize), random.nextInt(listSize))).toList, listSize)
   }
 }
 
-class SortingNetwork(comparators: Array[Comparator]) extends Individual {
+class SortingNetwork(comparators: List[Comparator], listLength : Int) extends Individual {
 
   def sort(list: ListToSort): ListToSort = {
 
@@ -29,4 +29,7 @@ class SortingNetwork(comparators: Array[Comparator]) extends Individual {
 
   override def toString = comparators.mkString(",")
 
+  def listLen = listLength
+
+  def addComparator(c : Comparator) = comparators :+ c
 }

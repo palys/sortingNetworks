@@ -28,7 +28,7 @@ object Main {
     val strategy = new BasicStrategy(listsPopulationSize, networksPopulationSize, listLength, BasicNetworkMutator,
       BasicNetworkCrosser, BasicListMutator, BasicListCrosser, Functions.networkTarget, Functions.listTarget)
 
-    for (x <- 1 to 10) {
+    for (x <- 1 to 100) {
       populations = strategy.evolve(populations)
     }
 
