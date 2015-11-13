@@ -2,6 +2,7 @@ package genetic.functions
 
 import genetic.Mutator
 import individual.list.ListToSort
+import individual.network.SortingNetwork
 
 import scala.util.Random
 
@@ -21,5 +22,9 @@ object Mutators {
         newArray.update(elementToChange, newElement)
         new ListToSort(newArray)
     }
+  }
+
+  object BasicNetworkMutator extends Mutator[SortingNetwork] {
+    override def mutate(individual: SortingNetwork): SortingNetwork = individual // TODO
   }
 }

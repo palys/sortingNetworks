@@ -18,4 +18,6 @@ class Comparator(index1: Int, index2: Int) {
 
     listToReturn
   }
+
+  override def toString = s"($index1, $index2)"
 }

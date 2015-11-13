@@ -27,6 +27,6 @@ class SortingNetwork(comparators: Array[Comparator]) extends Individual {
     l
   }
 
-
+  override def toString = comparators.mkString(",")
 
 }

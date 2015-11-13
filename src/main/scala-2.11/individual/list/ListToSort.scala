@@ -35,4 +35,6 @@ class ListToSort(array: Array[Int]) extends Individual {
 
   def getArray = array
 
+  override def toString = array mkString(", ")
+
 }
