@@ -1,7 +1,7 @@
 import genetic.functions.Crossers.{BasicListCrosser, BasicNetworkCrosser}
 import genetic.functions.Functions
 import genetic.functions.Mutators.{BasicListMutator, BasicNetworkMutator}
-import genetic.functions.Strategies.{EvolveOnlyNetworksStrategy, BasicStrategy}
+import genetic.functions.Strategies.{EvolveOnlyListsStrategy, EvolveOnlyNetworksStrategy, BasicStrategy}
 import genetic.functions.Simulation
 import individual.list.ListToSort
 import individual.network.SortingNetwork
@@ -22,7 +22,7 @@ object Main {
     val startingNetworkSize = 5
     val numberOfSteps = 100
 
-    val strategy = new EvolveOnlyNetworksStrategy(listsPopulationSize, networksPopulationSize, listLength, BasicNetworkMutator,
+    val strategy = new BasicStrategy(listsPopulationSize, networksPopulationSize, listLength, BasicNetworkMutator,
       BasicNetworkCrosser, BasicListMutator, BasicListCrosser, Functions.networkTarget, Functions.listTarget)
 
     val (startingLists, startingNetworks, finalLists, finalNetworks) = Simulation.simulate(listLength,listsPopulationSize,networksPopulationSize,startingNetworkSize,numberOfSteps,strategy)

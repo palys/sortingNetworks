@@ -49,8 +49,8 @@ object Strategies {
       val crossingNetworksPopulation = crossingNetworks(sortedPopulations._1)
 
       val mutatedNetworks = mutatingNetworksPopulation.map(networkMutator.mutate(_))
-      val crossedOverNetworks = crossingNetworksPopulation.map(networks => networkCrosser.crossOver(networks._1, networks._2))
-        .map(networks => Array(networks._1, networks._2)).reduce(_ ++ _)
+      val crossedOverNetworks = if(crossingNetworksPopulation.length > 0) crossingNetworksPopulation.map(networks => networkCrosser.crossOver(networks._1, networks._2))
+        .map(networks => Array(networks._1, networks._2)).reduce(_ ++ _) else Array[SortingNetwork]()
 
       val newNetworksPopulation = promotedNetworksPopulation ++ mutatedNetworks ++ crossedOverNetworks ++ randomNetworks
 
@@ -156,5 +156,42 @@ object Strategies {
     override def randomNetworks: Array[SortingNetwork] = {
       (1 to networksPopulationSize/4).map(x => SortingNetwork.randomNetwork(listLength, 5)).toArray
     }
+  }
+
+  class EvolveOnlyListsStrategy(listPopulationSize: Int, networksPopulationSize: Int, listLength: Int,
+                      networkMutator: Mutator[SortingNetwork], networkCrosser: Crosser[SortingNetwork],
+                      listMutator: Mutator[ListToSort], listCrosser: Crosser[ListToSort],
+                      networkTargetFunction: (SortingNetwork, Array[ListToSort]) => Double,
+                      listTargetFunction: (ListToSort, Array[SortingNetwork]) => Double)
+    extends AbstractStrategy(networkMutator, networkCrosser, listMutator,
+      listCrosser, networkTargetFunction, listTargetFunction) {
+
+    def randomIndices(maxIndex: Int, numberOfIndices: Int) = {
+      random.shuffle(0 to maxIndex - 1).take(numberOfIndices)
+    }
+
+    override def promotedLists(population: Array[ListToSort]): Array[ListToSort] = {
+      population.slice(population.size * 3 / 4, population.size)
+    }
+
+    override def promotedNetworks(population: Array[SortingNetwork]): Array[SortingNetwork] = population
+
+    override def mutatingNetworks(population: Array[SortingNetwork]): Array[SortingNetwork] = Array()
+
+    override def crossingNetworks(population: Array[SortingNetwork]): Array[(SortingNetwork, SortingNetwork)] = Array()
+
+    override def mutatingLists(population: Array[ListToSort]): Array[ListToSort] = {
+      randomIndices(listPopulationSize, listPopulationSize / 4).map(population(_)).toArray
+    }
+
+    override def crossingLists(population: Array[ListToSort]): Array[(ListToSort, ListToSort)] = {
+      (listPopulationSize * 3 /4 to listPopulationSize - 1 by 2).map(i => (population(i), population(i + 1))).toArray
+    }
+
+    override def randomLists: Array[ListToSort] = {
+      (1 to listPopulationSize/4).map(x => ListToSort.randomList(listLength)).toArray
+    }
+
+    override def randomNetworks: Array[SortingNetwork] = Array()
   }
 }
