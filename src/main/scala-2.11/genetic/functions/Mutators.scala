@@ -2,7 +2,7 @@ package genetic.functions
 
 import genetic.Mutator
 import individual.list.ListToSort
-import individual.network.SortingNetwork
+import individual.network.{Comparator, SortingNetwork}
 
 import scala.util.Random
 
@@ -32,10 +32,25 @@ object Mutators {
       val listSize = individual.listLen
 
       if (r < 0.5) {
-        individual
+        changeRandomComparator(individual)
       } else {
-        individual
+        addRandomComparator(individual)
       }
+    }
+
+    def changeRandomComparator(network: SortingNetwork) : SortingNetwork = {
+      val deleted = deleteRandomComparator(network)
+      addRandomComparator(deleted)
+    }
+
+    def addRandomComparator(network: SortingNetwork): SortingNetwork = {
+      val comp = new Comparator(random.nextInt(network.listLen), random.nextInt(network.listLen))
+      network.addComparator(comp)
+    }
+
+    def deleteRandomComparator(network: SortingNetwork): SortingNetwork = {
+      val compToDelete = random.nextInt(network.numberOfComparators)
+      network.removeComparator(compToDelete)
     }
   }
 }

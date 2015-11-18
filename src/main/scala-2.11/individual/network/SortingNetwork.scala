@@ -31,5 +31,13 @@ class SortingNetwork(comparators: List[Comparator], listLength : Int) extends In
 
   def listLen = listLength
 
-  def addComparator(c : Comparator) = comparators :+ c
+  def addComparator(c : Comparator) = {
+    new SortingNetwork(comparators.map(a => a) :+ c, listLength)
+  }
+
+  def removeComparator(number: Int) = {
+    new SortingNetwork(comparators.filterNot(_.equals(comparators(number))), listLength)
+  }
+
+  def numberOfComparators = comparators.length
 }
