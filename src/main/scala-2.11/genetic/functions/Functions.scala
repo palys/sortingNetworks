@@ -12,7 +12,10 @@ object Functions {
 
   def networkTarget(network: SortingNetwork, problems: Array[ListToSort]) = {
     problems.map(network.sort(_).isSorted).map(bool2int(_)).reduce(_ + _)
-    // TODO add penality for size
+  }
+
+  def lengthAwareNetworkTarget(network: SortingNetwork, problems: Array[ListToSort]) = {
+    problems.map(network.sort(_).isSorted).map(bool2int(_)).reduce(_ + _) - network.numberOfComparators/2
   }
 
   def listTarget(list: ListToSort, networks: Array[SortingNetwork]) = {

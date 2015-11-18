@@ -1,7 +1,7 @@
 import genetic.functions.Crossers.{BasicListCrosser, BasicNetworkCrosser}
 import genetic.functions.Functions
 import genetic.functions.Mutators.{BasicListMutator, BasicNetworkMutator}
-import genetic.functions.Strategies.{EvolveOnlyListsStrategy, EvolveOnlyNetworksStrategy, BasicStrategy}
+import genetic.functions.Strategies.{EvolveOnlyNetworksStrategy, BasicStrategy}
 import genetic.functions.Simulation
 import individual.list.ListToSort
 import individual.network.SortingNetwork
@@ -23,24 +23,24 @@ object Main {
     val numberOfSteps = 100
 
     val strategy = new BasicStrategy(listsPopulationSize, networksPopulationSize, listLength, BasicNetworkMutator,
-      BasicNetworkCrosser, BasicListMutator, BasicListCrosser, Functions.networkTarget, Functions.listTarget)
+      BasicNetworkCrosser, BasicListMutator, BasicListCrosser, Functions.lengthAwareNetworkTarget, Functions.listTarget)
 
-    val (startingLists, startingNetworks, finalLists, finalNetworks) = Simulation.simulate(listLength,listsPopulationSize,networksPopulationSize,startingNetworkSize,numberOfSteps,strategy)
+    val (startingLists, startingNetworks, finalNetworks, finalLists) = Simulation.simulate(listLength,listsPopulationSize,networksPopulationSize,startingNetworkSize,numberOfSteps,strategy)
 
     println("Starting lists, Starting networks")
     printFunctions(startingLists, startingNetworks)
     println("Starting lists, Final networks")
-    printFunctions(startingLists,finalLists)
+    printFunctions(startingLists,finalNetworks)
     println("Final lists, Starting networks")
-    printFunctions(finalNetworks, startingNetworks)
+    printFunctions(finalLists, startingNetworks)
     println("Final lists, Final networks")
-    printFunctions(finalNetworks, finalLists)
+    printFunctions(finalLists, finalNetworks)
   }
 
   def printFunctions(lists: Array[ListToSort], networks: Array[SortingNetwork]) = {
     println("lists:")
     println(lists.map(Functions.listTarget(_, networks)).sortBy(x => x).mkString(", "))
     println("networks:")
-    println(networks.map(n => Functions.networkTarget(n, lists)).sortBy(x => x).mkString(", "))
+    println(networks.map(n => Functions.lengthAwareNetworkTarget(n, lists)).sortBy(x => x).mkString(", "))
   }
 }
