@@ -19,11 +19,13 @@ object Main {
     val listLength = 5
     val listsPopulationSize = 40
     val networksPopulationSize = 40
+    val startingNetworkSize = 5
+    val numberOfSteps = 100
 
     val strategy = new EvolveOnlyNetworksStrategy(listsPopulationSize, networksPopulationSize, listLength, BasicNetworkMutator,
       BasicNetworkCrosser, BasicListMutator, BasicListCrosser, Functions.networkTarget, Functions.listTarget)
 
-    val (startingLists, startingNetworks, finalLists, finalNetworks) = Simulation.simulate(listLength,listsPopulationSize,networksPopulationSize,5,100,strategy)
+    val (startingLists, startingNetworks, finalLists, finalNetworks) = Simulation.simulate(listLength,listsPopulationSize,networksPopulationSize,startingNetworkSize,numberOfSteps,strategy)
 
     println("Starting lists, Starting networks")
     printFunctions(startingLists, startingNetworks)
