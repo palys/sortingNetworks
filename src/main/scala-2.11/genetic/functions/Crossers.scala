@@ -45,10 +45,14 @@ object Crossers {
     }
 
     def randomSplit(individual: SortingNetwork): (List[Comparator], List[Comparator]) = {
-      val splitePlace = random.nextInt(individual.numberOfComparators)
-      val comparators: List[Comparator] = individual.getComparators
+      if (individual.numberOfComparators > 1) {
+        val splitPlace = random.nextInt(individual.numberOfComparators - 1) + 1
+        val comparators: List[Comparator] = individual.getComparators
 
-      (comparators.take(splitePlace), comparators.takeRight(individual.numberOfComparators - splitePlace))
+        (comparators.take(splitPlace), comparators.takeRight(individual.numberOfComparators - splitPlace))
+      } else {
+        (individual.getComparators, individual.getComparators)
+      }
 
     }
   }
