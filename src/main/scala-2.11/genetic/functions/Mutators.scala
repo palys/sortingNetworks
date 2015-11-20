@@ -49,8 +49,12 @@ object Mutators {
     }
 
     def deleteRandomComparator(network: SortingNetwork): SortingNetwork = {
-      val compToDelete = random.nextInt(network.numberOfComparators)
-      network.removeComparator(compToDelete)
+      if (network.numberOfComparators > 0) {
+        val compToDelete = random.nextInt(network.numberOfComparators)
+        network.removeComparator(compToDelete)
+      } else {
+        network
+      }
     }
   }
 }

@@ -40,4 +40,6 @@ class SortingNetwork(comparators: List[Comparator], listLength : Int) extends In
   }
 
   def numberOfComparators = comparators.length
+
+  def getComparators: List[Comparator] = comparators
 }
