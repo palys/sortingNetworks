@@ -19,6 +19,15 @@ class SimulationOutputter(simulation: Simulation) {
     printFunctions(finalLists, startingNetworks, numberOfPrintedOut)
     println("Final lists, Final networks")
     printFunctions(finalLists, finalNetworks, numberOfPrintedOut)
+
+
+
+    val checker = SortingNetworkValidityChecker
+    val sortedNetworks = finalNetworks.map(n => (Functions.lengthAwareNetworkTarget(n, finalLists), n)).sortBy(x => -x._1).map(_._2)
+
+    println(checker.isValid(sortedNetworks(0)))
+
+    (startingLists, startingNetworks, finalNetworks, finalLists)
   }
 
   def printFunctions(lists: Array[ListToSort], networks: Array[SortingNetwork], numberOfPrintedOut: Int) = {
