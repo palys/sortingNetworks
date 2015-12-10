@@ -15,7 +15,7 @@ object Functions {
   }
 
   def lengthAwareNetworkTarget(network: SortingNetwork, problems: Array[ListToSort]) = {
-    problems.map(network.sort(_).isSorted).map(bool2int(_)).reduce(_ + _) - network.numberOfComparators
+    problems.map(network.sort(_).isSorted).map(bool2int(_)).reduce(_ + _) - network.numberOfComparators/5
   }
 
   def listTarget(list: ListToSort, networks: Array[SortingNetwork]) = {

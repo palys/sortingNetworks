@@ -15,11 +15,11 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    val listLength = 5
-    val listsPopulationSize = 40
-    val networksPopulationSize = 40
-    val startingNetworkSize = 5
-    val numberOfSteps = 100
+    val listLength = 15
+    val listsPopulationSize = 200
+    val networksPopulationSize = 200
+    val startingNetworkSize = 500
+    val numberOfSteps = 1000
 
     val strategy = new BasicStrategy(listsPopulationSize, networksPopulationSize, listLength, BasicNetworkMutator,
       BasicNetworkCrosser, BasicListMutator, BasicListCrosser, Functions.lengthAwareNetworkTarget, Functions.listTarget)

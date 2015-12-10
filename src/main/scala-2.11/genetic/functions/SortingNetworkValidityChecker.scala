@@ -17,6 +17,14 @@ object SortingNetworkValidityChecker {
 
   }
 
+  def countValid(network: SortingNetwork) = {
+    val len = network.listLen
+    val sequencesIterator = new ZeroOneSequence(len)
+    val maxScore = Math.pow(2, len)
+
+    (sequencesIterator.map(new ListToSort(_)).map(network.sort(_)).map(_.isSorted).map(if(_) 1 else 0).reduce(_ + _), maxScore)
+  }
+
 
   class ZeroOneSequence(length: Int) extends Iterator[Array[Int]] {
     val combinations = ((1 to length).map(x => 0) ++ (1 to length).map(x => 1)).combinations(length)

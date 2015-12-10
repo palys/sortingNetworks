@@ -1,5 +1,6 @@
 package genetic.functions
 
+import individual.Individual
 import individual.list.ListToSort
 import individual.network.SortingNetwork
 
@@ -20,12 +21,12 @@ class SimulationOutputter(simulation: Simulation) {
     println("Final lists, Final networks")
     printFunctions(finalLists, finalNetworks, numberOfPrintedOut)
 
+    val bestList = finalLists.sortBy(Functions.listTarget(_, finalNetworks)).takeRight(1)(0)
+    val bestNetwork = finalNetworks.sortBy(Functions.lengthAwareNetworkTarget(_, finalLists)).takeRight(1)(0)
 
+    printBestList(bestList)
+    printBestNetwork(bestNetwork)
 
-    val checker = SortingNetworkValidityChecker
-    val sortedNetworks = finalNetworks.map(n => (Functions.lengthAwareNetworkTarget(n, finalLists), n)).sortBy(x => -x._1).map(_._2)
-
-    println(checker.isValid(sortedNetworks(0)))
 
     (startingLists, startingNetworks, finalNetworks, finalLists)
   }
@@ -36,4 +37,20 @@ class SimulationOutputter(simulation: Simulation) {
     println("networks:")
     println(networks.map(n => Functions.lengthAwareNetworkTarget(n, lists)).sortBy(x => x).takeRight(numberOfPrintedOut).mkString(", "))
   }
+
+  def printBestList(list: ListToSort) = {
+    println("Best list: " + list)
+  }
+
+  def printBestNetwork(network: SortingNetwork) = {
+    val checker = SortingNetworkValidityChecker
+    val score = checker.countValid(network)
+
+    val correctSorted = score._1
+    val max = score._2
+    val length = network.getComparators.length
+
+    println(s"Best network sorted $correctSorted 0-1 sequences out of $max. Network length is $length")
+  }
+
 }
